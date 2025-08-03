@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whis-cli"
+version = "0.1.0"
+authors = [
+  { name="Milan Slesarik", email="milslesarik@gmail.com" }
+]
+description = "A tiny Linux command whisperer that suggests shell commands based on natural language."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.8"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Environment :: Console",
+    "Topic :: Utilities",
+]
+
+dependencies = [
+    "openai",
+    "ollama",
+    "pyperclip"
+#    "rich"
+]
+
+[project.urls]
+Homepage = "https://github.com/milano-slesarik/whis"
+"Bug Tracker" = "https://github.com/milano-slesarik/whis/issues"
+
+[project.scripts]
+whis = "whis.cli:run_cli"
