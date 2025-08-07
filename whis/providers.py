@@ -107,13 +107,13 @@ class OpenAIProvider(LLMProvider):
         super().__init__(model)
 
         self.model = model
-        self.client = OpenAI()
+        self.provider = OpenAI()
 
     def is_available(self) -> bool:
         return OPENAI_AVAILABLE
 
     def _submit(self) -> str:
-        response = self.client.chat.completions.create(
+        response = self.provider.chat.completions.create(
             model=self.model,
             messages=self.history,
             temperature=self.temp,
@@ -132,13 +132,13 @@ class OllamaProvider(LLMProvider):
         super().__init__(model)
 
         self.model = model
-        self.client = ollama.Client()
+        self.provider = ollama.Client()
 
     def is_available(self) -> bool:
         return OLLAMA_AVAILABLE
 
     def _submit(self) -> str:
-        response = self.client.chat(
+        response = self.provider.chat(
             model=self.model,
             messages=self.history,
             options={"temperature": self.temp},
@@ -146,7 +146,7 @@ class OllamaProvider(LLMProvider):
         return response.message.content.strip()
 
 
-def get_client():
+def get_provider():
     if config.whis_provider == "openai":
         return OpenAIProvider(config.whis_model)
     elif config.whis_provider == "ollama":

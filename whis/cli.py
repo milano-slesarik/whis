@@ -3,7 +3,7 @@ from enum import Enum
 
 from .utils import paste_to_bash
 from . import config
-from .clients import get_client
+from .providers import get_provider
 
 config.setup_logging()
 
@@ -27,11 +27,11 @@ class Session:
         logger.info("WHIS %s", config.get_version())
 
 
-        self.client = get_client()
-        logger.info(self.client)
+        self.provider = get_provider()
+        logger.info(self.provider)
 
     def robot_label(self):
-        return f"{self.client.label} ({self.client.model})"
+        return f"{self.provider.label} ({self.provider.model})"
 
     def run(self):
         logger.info("run")
@@ -41,7 +41,7 @@ class Session:
 
         while True:
             # try/except with repeat?
-            suggestion = self.client.say(message)
+            suggestion = self.provider.say(message)
             print(f"? {self._colorize(suggestion, ANSIColors.BOLD_CYAN)}")
 
             action = self._get_user_action()
