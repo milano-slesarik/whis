@@ -1,11 +1,12 @@
 import logging
 import os
 from datetime import datetime
+from importlib import metadata
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
-
-WHIS_VERSION = "0.1.0.dev0"
 
 LOG_DIR = os.path.expanduser("~/.local/share/whis")
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -99,3 +100,23 @@ You are an expert Linux shell assistant. Your goal is to translate a user's requ
 # Useful Information
 - Current date and time: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 """
+
+
+def get_version() -> str:
+    """Returns version. For development, we parse it from the pyproject.toml."""
+    try:
+        import tomllib  # Python 3.11+
+        repo_root = Path(__file__).resolve().parents[1]
+        pyproject = repo_root / "pyproject.toml"
+        if pyproject.is_file():
+            data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+            return data.get("project", {}).get("version", "COULD_NOT_DETECT_VERSION")
+    except Exception:
+        pass
+
+    try:
+        return metadata.version("whis-cli")
+    except metadata.PackageNotFoundError:
+        pass
+
+    return "COULD_NOT_DETECT_VERSION"

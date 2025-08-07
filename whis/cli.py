@@ -24,7 +24,9 @@ class ANSIColors:
 
 class Session:
     def __init__(self):
-        logger.info("Starting WHIS session")
+        logger.info("WHIS %s", config.get_version())
+
+
         self.client = get_client()
         logger.info(self.client)
 
