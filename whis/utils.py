@@ -32,3 +32,12 @@ def paste_to_bash(text):
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL
     )
+
+
+class ANSIColors:
+    BOLD_CYAN = "\033[1;36m"
+    BOLD_ORANGE = "\033[1;33m"
+    RESET = "\033[0m"
+
+def colorize(text, color):
+    return f"{color}{text}{ANSIColors.RESET}"

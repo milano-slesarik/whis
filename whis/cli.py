@@ -2,7 +2,7 @@ import argparse
 import logging.config
 from enum import Enum
 
-from .utils import paste_to_bash
+from .utils import paste_to_bash, ANSIColors, colorize
 from . import config
 from .providers import get_provider
 
@@ -16,11 +16,6 @@ class UserAction(Enum):
     QUIT = "_quit"
     RETRY = "_retry"
     FEEDBACK = "feedback"
-
-
-class ANSIColors:
-    BOLD_CYAN = "\033[1;36m"
-    RESET = "\033[0m"
 
 
 class Session:
@@ -42,7 +37,7 @@ class Session:
         while True:
             # try/except with repeat?
             suggestion = self.provider.say(message)
-            print(f"? {self._colorize(suggestion, ANSIColors.BOLD_CYAN)}")
+            print(f"? {colorize(suggestion, ANSIColors.BOLD_CYAN)}")
 
             action = self._get_user_action()
 
@@ -83,9 +78,6 @@ class Session:
 
         logger.debug("Parsed user action: %s", _return)
         return _return
-
-    def _colorize(self, text, color):
-        return f"{color}{text}{ANSIColors.RESET}"
 
 
 def run_cli():
