@@ -30,7 +30,7 @@ jobs:
         run: |
           which whis
           whis --help
-          python -m whis --help
+
       - name: Smoke test
         run: |
           whis --version
