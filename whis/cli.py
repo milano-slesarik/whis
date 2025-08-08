@@ -1,3 +1,4 @@
+import argparse
 import logging.config
 from enum import Enum
 
@@ -25,7 +26,6 @@ class ANSIColors:
 class Session:
     def __init__(self):
         logger.info("WHIS %s", config.get_version())
-
 
         self.provider = get_provider()
         logger.info(self.provider)
@@ -89,6 +89,16 @@ class Session:
 
 
 def run_cli():
+    parser = argparse.ArgumentParser(
+        prog="whis",
+        description="Suggest a shell command from a natural-language prompt.",
+    )
+    parser.add_argument("--version", action="store_true", help="Show version and exit.")
+    args = parser.parse_args()
+    if args.version:
+        print(config.get_version())
+        exit(0)
+
     session = Session()
     session.run()
 
