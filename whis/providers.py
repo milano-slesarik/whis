@@ -146,10 +146,28 @@ class OllamaProvider(LLMProvider):
         return response.message.content.strip()
 
 
+class DummyProvider(LLMProvider):
+    """Dummy provider for testing etc..."""
+    name = "dummy"
+    label = "Dummy"
+    temp = 0.0
+
+    def __init__(self, model: str = "dummy"):
+        super().__init__(model)
+
+    def is_available(self) -> bool:
+        return True
+
+    def _submit(self) -> str:
+        return "a dummy response"
+
+
 def get_provider():
     if config.whis_provider == "openai":
         return OpenAIProvider(config.whis_model)
     elif config.whis_provider == "ollama":
         return OllamaProvider(config.whis_model)
+    elif config.whis_provider == "dummy":
+        return DummyProvider(config.whis_model)
     else:
         raise ValueError(f"Unknown provider: {config.whis_provider}")
