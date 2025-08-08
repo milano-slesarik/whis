@@ -32,6 +32,9 @@ jobs:
           whis --help
 
       - name: Smoke test
+        env:
+          WHIS_PROVIDER: dummy
+          WHIS_MODEL: dummy
         run: |
           whis --version
           whis --smoke
