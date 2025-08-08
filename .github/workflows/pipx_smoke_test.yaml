@@ -1,0 +1,37 @@
+name: pipx-smoke
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pipx-smoke:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pipx
+        run: |
+          python -m pip install --user pipx
+          python -m pipx ensurepath
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          pipx --version
+
+      - name: Install from this commit
+        run: |
+          pipx install "git+https://github.com/${{ github.repository }}.git@${{ github.sha }}"
+          pipx list
+
+      - name: Verify CLI is on PATH
+        run: |
+          which whis
+          whis --help
+          python -m whis --help
+      - name: Smoke test
+        run: |
+          whis --version
+          whis --smoke
