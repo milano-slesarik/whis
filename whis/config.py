@@ -4,9 +4,13 @@ from datetime import datetime
 from importlib import metadata
 from pathlib import Path
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    pass  # ok if dotenv is not installed
+else:
+    load_dotenv()
 
-load_dotenv()
 
 LOG_DIR = os.path.expanduser("~/.local/share/whis")
 os.makedirs(LOG_DIR, exist_ok=True)
