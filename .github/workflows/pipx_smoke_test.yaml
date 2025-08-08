@@ -23,7 +23,7 @@ jobs:
 
       - name: Install from this commit
         run: |
-          pipx install "git+https://github.com/${{ github.repository }}.git@${{ github.sha }}"
+          pipx install .
           pipx list
 
       - name: Verify CLI is on PATH
