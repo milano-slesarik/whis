@@ -1,5 +1,6 @@
 import logging
 import os
+import tomllib
 from datetime import datetime
 from importlib import metadata
 from pathlib import Path
@@ -12,45 +13,72 @@ else:
     load_dotenv()
 
 
-LOG_DIR = os.path.expanduser("~/.local/share/whis")
-os.makedirs(LOG_DIR, exist_ok=True)
-LOG_FILE = os.path.join(LOG_DIR, "whis.log")
+ENV = os.environ.get("WHIS_ENV", "prod")  # prod, dev, test
+
+PROJECT_DIR = Path(__file__).resolve().parents[1]
+
+if ENV == "dev":
+    CONFIG_FILE = PROJECT_DIR / "config.dev.toml"
+    LOG_FILE = PROJECT_DIR / "whis.dev.log"
+else:
+    XDG_CONFIG_HOME = Path(
+        os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")
+    ).expanduser()
+    XDG_STATE_HOME = Path(
+        os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "state")
+    ).expanduser()
+
+    CONFIG_FILE = XDG_CONFIG_HOME / "whis" / "config.toml"
+
+    LOG_DIR = XDG_STATE_HOME / "whis"
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    LOG_FILE = str(LOG_DIR / "whis.log")
+
+    # ~/.config/whis/config.toml might not exist yet, so we create it here with default values
+    # from config.template.toml
+    if not CONFIG_FILE.exists():
+        template_text = (PROJECT_DIR / "config.template.toml").read_text()
+        CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+        CONFIG_FILE.write_text(template_text)
+
+config_toml = tomllib.loads(CONFIG_FILE.read_text())
+
+
+llm_provider = config_toml.get("llm_provider")  # ollama, openai...
+llm_model = config_toml.get("llm_model")  # gpt-3.5-turbo, gpt-4, qwen2:7b...
 
 LOG_FORMAT = "%(asctime)s - [%(levelname)s] - %(name)s: %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-LOG_MAX_BYTES = 1024 * 1024 * 5 # 5 MB
+LOG_MAX_BYTES = 1024 * 1024 * 5  # 5 MB
 LOG_BACKUP_COUNT = 5
 
 
 def setup_logging():
     LOGGING_CONFIG = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'standard': {
-                'format': LOG_FORMAT,
-                'datefmt': LOG_DATE_FORMAT
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "standard": {"format": LOG_FORMAT, "datefmt": LOG_DATE_FORMAT},
+        },
+        "handlers": {
+            "console": {
+                "level": "ERROR",  # it's a cli tool - no logs to the console
+                "formatter": "standard",
+                "class": "logging.StreamHandler",
+            },
+            "file": {
+                "level": "DEBUG",
+                "formatter": "standard",
+                "class": "logging.handlers.RotatingFileHandler",
+                "filename": LOG_FILE,
+                "maxBytes": LOG_MAX_BYTES,
+                "backupCount": LOG_BACKUP_COUNT,
+                "encoding": "utf-8",  # todo is it necessary?
             },
         },
-        'handlers': {
-            'console': {
-                'level': 'ERROR',  # it's a cli tool - no logs to the console
-                'formatter': 'standard',
-                'class': 'logging.StreamHandler',
-            },
-            'file': {
-                'level': 'DEBUG',
-                'formatter': 'standard',
-                'class': 'logging.handlers.RotatingFileHandler',
-                'filename': LOG_FILE,
-                'maxBytes': LOG_MAX_BYTES,
-                'backupCount': LOG_BACKUP_COUNT,
-                'encoding': 'utf-8',  # todo is it necessary?
-            }
-        },
-        'root': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
+        "root": {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
         },
         "loggers": {
             # silence third-party loggers
@@ -63,9 +91,6 @@ def setup_logging():
     }
     logging.config.dictConfig(LOGGING_CONFIG)
     logging.captureWarnings(True)
-
-whis_provider = os.environ.get("WHIS_PROVIDER", "ollama")
-whis_model = os.environ.get("WHIS_MODEL", "qwen2:7b")
 
 
 SYSTEM_PROMPT = f"""
@@ -110,6 +135,7 @@ def get_version() -> str:
     """Returns version. For development, we parse it from the pyproject.toml."""
     try:
         import tomllib  # Python 3.11+
+
         repo_root = Path(__file__).resolve().parents[1]
         pyproject = repo_root / "pyproject.toml"
         if pyproject.is_file():

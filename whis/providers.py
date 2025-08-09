@@ -163,11 +163,11 @@ class DummyProvider(LLMProvider):
 
 
 def get_provider():
-    if config.whis_provider == "openai":
-        return OpenAIProvider(config.whis_model)
-    elif config.whis_provider == "ollama":
-        return OllamaProvider(config.whis_model)
-    elif config.whis_provider == "dummy":
-        return DummyProvider(config.whis_model)
+    if config.llm_provider == "openai":
+        return OpenAIProvider(config.llm_model)
+    elif config.llm_provider == "ollama":
+        return OllamaProvider(config.llm_model)
+    elif config.llm_provider == "dummy":
+        return DummyProvider(config.llm_model)
     else:
-        raise ValueError(f"Unknown provider: {config.whis_provider}")
+        raise ValueError(f"Unknown provider: {config.llm_provider}")
