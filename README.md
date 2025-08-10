@@ -8,8 +8,8 @@ The main goals:
 - simple
 - fast
 - free and unlimited (LLM requests)
-- 
-I'm building it to use it with local (free and fast) LLMs (Ollama) but works with common external APIs too. 
+-
+I'm building it to use it with local (free and fast) LLMs (Ollama) but works with common external APIs too.
 
 ## Usage
 
