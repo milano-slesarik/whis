@@ -43,5 +43,11 @@ dev = [
   "dotenv",
   "pytest",
   "black",
-  "ruff"
+  "ruff",
+  "pre-commit>=4.3.0,<5"
+
 ]
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
