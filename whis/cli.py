@@ -53,9 +53,7 @@ class Session:
                 exit(0)
             elif action == UserAction.RETRY:
                 message = "Try again, user wants something different."
-            elif isinstance(
-                action, str
-            ):  # custom feedback like "ok, but display human-readable file sizes"
+            elif isinstance(action, str):  # custom feedback like "ok, but display human-readable file sizes"
                 message = action
 
     def _get_user_action(self):
@@ -86,7 +84,11 @@ def run_cli():
         description="Suggest a shell command from a natural-language prompt.",
     )
     parser.add_argument("--version", action="store_true", help="Show version and exit.")
-    parser.add_argument("--smoke", action="store_true", help="Quick smoke test: tries connection with simple command and exits.")
+    parser.add_argument(
+        "--smoke",
+        action="store_true",
+        help="Quick smoke test: tries connection with simple command and exits.",
+    )
 
     args = parser.parse_args()
     if args.version:
@@ -99,7 +101,7 @@ def run_cli():
         if provider.is_available():
             print(f"{provider.label} ({provider.model})")  # todo create method on provider
         print("Asking for suggestion...", end=" ")
-        print(colorize('list mp3 files', ANSIColors.BOLD_ORANGE))
+        print(colorize("list mp3 files", ANSIColors.BOLD_ORANGE))
         sug = provider.say("list mp3 files")
         print(f"whis: {colorize(sug, ANSIColors.BOLD_CYAN)}")
         print("OK. No errors found.")
