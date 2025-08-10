@@ -51,3 +51,6 @@ dev = [
 [tool.black]
 line-length = 120
 target-version = ["py312"]
+
+[tool.ruff]
+line-length = 120
