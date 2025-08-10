@@ -38,6 +38,9 @@ Homepage = "https://github.com/milano-slesarik/whis"
 [tool.setuptools]
 packages = { find = { include = ["whis*"] } }
 
+[tool.setuptools.package-data]
+whis = ["config.template.toml"]
+
 [project.optional-dependencies]
 dev = [
   "dotenv",

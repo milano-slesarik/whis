@@ -15,11 +15,12 @@ else:
 
 ENV = os.environ.get("WHIS_ENV", "prod")  # prod, dev, test
 
-PROJECT_DIR = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PACKAGE_ROOT = REPO_ROOT / "whis"
 
 if ENV == "dev":
-    CONFIG_FILE = PROJECT_DIR / "config.dev.toml"
-    LOG_FILE = PROJECT_DIR / "whis.dev.log"
+    CONFIG_FILE = REPO_ROOT / "config.dev.toml"
+    LOG_FILE = REPO_ROOT / "whis.dev.log"
 else:
     XDG_CONFIG_HOME = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")).expanduser()
     XDG_STATE_HOME = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "state")).expanduser()
@@ -33,7 +34,7 @@ else:
     # ~/.config/whis/config.toml might not exist yet, so we create it here with default values
     # from config.template.toml
     if not CONFIG_FILE.exists():
-        template_text = (PROJECT_DIR / "config.template.toml").read_text()
+        template_text = (PACKAGE_ROOT / "config.template.toml").read_text()
         CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
         CONFIG_FILE.write_text(template_text)
 
