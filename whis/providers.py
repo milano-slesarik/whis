@@ -50,11 +50,7 @@ class LLMProvider(ABC):
             return
 
         user_messages = self.history[1:]  # skip system prompt
-        recent = (
-            user_messages[-max_messages:]
-            if len(user_messages) >= max_messages
-            else user_messages
-        )
+        recent = user_messages[-max_messages:] if len(user_messages) >= max_messages else user_messages
 
         logger.debug("Last messages in history:")
         for msg in recent:
@@ -148,6 +144,7 @@ class OllamaProvider(LLMProvider):
 
 class DummyProvider(LLMProvider):
     """Dummy provider for testing etc..."""
+
     name = "dummy"
     label = "Dummy"
     temp = 0.0

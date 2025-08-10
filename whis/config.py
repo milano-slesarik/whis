@@ -21,12 +21,8 @@ if ENV == "dev":
     CONFIG_FILE = PROJECT_DIR / "config.dev.toml"
     LOG_FILE = PROJECT_DIR / "whis.dev.log"
 else:
-    XDG_CONFIG_HOME = Path(
-        os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")
-    ).expanduser()
-    XDG_STATE_HOME = Path(
-        os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "state")
-    ).expanduser()
+    XDG_CONFIG_HOME = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")).expanduser()
+    XDG_STATE_HOME = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "state")).expanduser()
 
     CONFIG_FILE = XDG_CONFIG_HOME / "whis" / "config.toml"
 
@@ -119,7 +115,7 @@ You are an expert Linux shell assistant. Your goal is to translate a user's requ
 
 # Common Feedback Patterns for Command Refinement:
 - "this dir" or "current dir" or "here" → modify previous command to search only current directory (add -maxdepth 1 to find, or use ls)
-- "recursive" → ensure command searches subdirectories 
+- "recursive" → ensure command searches subdirectories
 
 # Examples:
 - Initial: "list txt files" → `find . -type f -name '*.txt'`
