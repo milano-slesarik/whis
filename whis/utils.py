@@ -3,7 +3,7 @@ import subprocess
 import time
 import os
 import sys
-
+from . import config
 import pyperclip
 
 logger = logging.getLogger(__name__)
@@ -42,3 +42,16 @@ class ANSIColors:
 
 def colorize(text, color):
     return f"{color}{text}{ANSIColors.RESET}"
+
+
+def print_config():
+    print("ENV:", config.ENV)
+    print("version:", config.get_version())
+    print("REPO_ROOT:", config.REPO_ROOT)
+    print("PACKAGE_ROOT:", config.PACKAGE_ROOT)
+    print("CONFIG_FILE:", config.CONFIG_FILE)
+    print("LOG_FILE:", config.LOG_FILE)
+    print("llm_provider:", config.llm_provider)
+    print("llm_model:", config.llm_model)
+    print("config_file_content:", config.config_toml)
+    print("env vars:", {k: v for k, v in os.environ.items() if k.startswith("WHIS_")})

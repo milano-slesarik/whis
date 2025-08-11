@@ -1,10 +1,9 @@
-import argparse
 import logging.config
 from enum import Enum
 
-from .utils import paste_to_bash, ANSIColors, colorize
 from . import config
 from .providers import registry
+from .utils import paste_to_bash, ANSIColors, colorize
 
 config.setup_logging()
 
@@ -46,11 +45,11 @@ class Session:
                 logger.info("Pasting to bash: %s", suggestion)
                 # pyperclip.copy(suggestion)
                 paste_to_bash(suggestion)
-                exit(0)
+                return
 
             elif action == UserAction.QUIT:
                 print("Cancelled.")
-                exit(0)
+                return
             elif action == UserAction.RETRY:
                 message = "Try again, user wants something different."
             elif isinstance(action, str):  # custom feedback like "ok, but display human-readable file sizes"
@@ -79,38 +78,5 @@ class Session:
 
 
 def run_cli():
-    parser = argparse.ArgumentParser(
-        prog="whis",
-        description="Suggest a shell command from a natural-language prompt.",
-    )
-    parser.add_argument("--version", action="store_true", help="Show version and exit.")
-    parser.add_argument(
-        "--smoke",
-        action="store_true",
-        help="Quick smoke test: tries connection with simple command and exits.",
-    )
-
-    args = parser.parse_args()
-
-    if args.version:
-        print(config.get_version())
-        exit(0)
-
-    if args.smoke:
-        print("Checking provider and model...", end=" ")
-        provider = registry.create_by_env()
-        if provider.is_available():
-            print(f"{provider.label} ({provider.model})")  # todo create method on provider
-        print("Asking for suggestion...", end=" ")
-        print(colorize("list mp3 files", ANSIColors.BOLD_ORANGE))
-        sug = provider.say("list mp3 files")
-        print(f"whis: {colorize(sug, ANSIColors.BOLD_CYAN)}")
-        print("OK. No errors found.")
-        exit(0)
-
     session = Session()
     session.run()
-
-
-if __name__ == "__main__":
-    run_cli()
