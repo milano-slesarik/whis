@@ -29,7 +29,7 @@ dependencies = [
 ]
 
 [project.scripts]
-whis = "whis.cli:run_cli"
+whis = "whis.__main__:main"
 
 [project.urls]
 Homepage = "https://github.com/milano-slesarik/whis"
