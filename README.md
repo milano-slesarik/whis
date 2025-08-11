@@ -1,22 +1,23 @@
 # A tiny Linux command whisperer (WHIS)
 
-Blah blah...
-A tiny Linux command whisperer/generator.
 
-The main goals:
-- lightweight
-- simple
+A tiny Linux command whisperer/generator based on LLM, written in Python.
+
+The main goals are:
+- minimal interruption of the workflow
 - fast
-- free and unlimited (LLM requests)
--
-I'm building it to use it with local (free and fast) LLMs (Ollama) but works with common external APIs too.
+- free and unlimited suggestions (with local LLM)
+- privacy (with local LLM)
+- minimalistic interface
+
 
 ## Usage
 
 # ![Showcase](_showcase.gif)
 
-# Todo
+# Todo (business logic)
 
+- one-shot mode: `whis "list mp3 files"` without the interactive session
 - get configuration variables from a config file
 - `explain` command that sends request for a brief explanation of the command
   - should use a new conversation without a previous context
@@ -30,11 +31,17 @@ I'm building it to use it with local (free and fast) LLMs (Ollama) but works wit
 - other modes (current "quit then paste" feels unreliable)
   - copy to clipboard
   - execute directly
+- more info in system prompt (OS, pwd...)
+- command syntax check before suggestion
+
+# Todo (technical)
+
 - tests
+- consider [click](https://github.com/pallets/click/) for CLI
 - checks - precommit
   - flake8
   - black
   - isort
   - mypy
-- more info in system prompt (OS, pwd...)
-- command syntax check before suggestion
+- better command pasting (now it uses xdotool and xclip with process forking) using bash functions
+- there seems to be a conflict between `black` and `ruff`
