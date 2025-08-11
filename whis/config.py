@@ -2,6 +2,7 @@ import logging
 import os
 import tomllib
 from datetime import datetime
+from enum import Enum
 from importlib import metadata
 from pathlib import Path
 
@@ -13,7 +14,15 @@ else:
     load_dotenv()
 
 
-ENV = os.environ.get("WHIS_ENV", "prod")  # prod, dev, test
+class Env(str, Enum):
+    DEV = "dev"
+    PROD = "prod"
+    TEST = "test"
+
+
+ENV = os.environ.get("WHIS_ENV", Env.PROD)
+
+is_dev = ENV == Env.DEV
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_ROOT = REPO_ROOT / "whis"
