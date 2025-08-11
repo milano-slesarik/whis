@@ -4,7 +4,7 @@ from enum import Enum
 
 from .utils import paste_to_bash, ANSIColors, colorize
 from . import config
-from .providers import get_provider
+from .providers import registry
 
 config.setup_logging()
 
@@ -22,7 +22,7 @@ class Session:
     def __init__(self):
         logger.info("WHIS %s", config.get_version())
 
-        self.provider = get_provider()
+        self.provider = registry.create_by_env()
         logger.info(self.provider)
 
     def robot_label(self):
@@ -91,13 +91,14 @@ def run_cli():
     )
 
     args = parser.parse_args()
+
     if args.version:
         print(config.get_version())
         exit(0)
 
     if args.smoke:
         print("Checking provider and model...", end=" ")
-        provider = get_provider()
+        provider = registry.create_by_env()
         if provider.is_available():
             print(f"{provider.label} ({provider.model})")  # todo create method on provider
         print("Asking for suggestion...", end=" ")

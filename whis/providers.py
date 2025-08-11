@@ -28,6 +28,32 @@ class ProviderType(Enum):
     # GEMINI = "gemini"  # todo
 
 
+class ProviderRegistry:
+    def __init__(self):
+        self._providers = {}
+
+    def register(self, cls):
+        logger.debug("Registering provider: %s", cls)
+        self._providers[cls.name] = cls
+        return cls
+
+    def _get_class(self, provider_name):
+        return self._providers[provider_name]
+
+    def create(self, provider_name, model):
+        # todo manage errors
+        return self._get_class(provider_name)(model)
+
+    def create_by_env(self):
+        return self.create(config.llm_provider, config.llm_model)
+
+    def list(self) -> list[str]:
+        return sorted(self._providers.keys())
+
+
+registry = ProviderRegistry()
+
+
 class LLMProvider(ABC):
     name = None
     label = None
@@ -91,6 +117,7 @@ class LLMProvider(ABC):
         return f"{self.name} ({self.model})"
 
 
+@registry.register
 class OpenAIProvider(LLMProvider):
     name = "openai"
     label = "OpenAI"
@@ -117,6 +144,7 @@ class OpenAIProvider(LLMProvider):
         return response.choices[0].message.content.strip()
 
 
+@registry.register
 class OllamaProvider(LLMProvider):
     name = "ollama"
     label = "Ollama"
@@ -159,12 +187,5 @@ class DummyProvider(LLMProvider):
         return "a dummy response"
 
 
-def get_provider():
-    if config.llm_provider == "openai":
-        return OpenAIProvider(config.llm_model)
-    elif config.llm_provider == "ollama":
-        return OllamaProvider(config.llm_model)
-    elif config.llm_provider == "dummy":
-        return DummyProvider(config.llm_model)
-    else:
-        raise ValueError(f"Unknown provider: {config.llm_provider}")
+if config.is_dev:
+    registry.register(DummyProvider)
