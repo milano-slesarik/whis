@@ -33,6 +33,7 @@ The main goals are:
   - execute directly
 - more info in system prompt (OS, pwd...)
 - command syntax check before suggestion
+- use one specific color for all responses and another for user inputs
 
 # Todo (technical)
 
