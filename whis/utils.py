@@ -37,6 +37,7 @@ def paste_to_bash(text):
 class ANSIColors:
     BOLD_CYAN = "\033[1;36m"
     BOLD_ORANGE = "\033[1;33m"
+    GRAY = "\033[90m"
     RESET = "\033[0m"
 
 
@@ -44,14 +45,19 @@ def colorize(text, color):
     return f"{color}{text}{ANSIColors.RESET}"
 
 
+def get_whis_env_vars():
+    return {k: v for k, v in os.environ.items() if k.startswith("WHIS_")}
+
+
 def print_config():
-    print("ENV:", config.ENV)
-    print("version:", config.get_version())
-    print("REPO_ROOT:", config.REPO_ROOT)
-    print("PACKAGE_ROOT:", config.PACKAGE_ROOT)
-    print("CONFIG_FILE:", config.CONFIG_FILE)
-    print("LOG_FILE:", config.LOG_FILE)
-    print("llm_provider:", config.llm_provider)
-    print("llm_model:", config.llm_model)
-    print("config_file_content:", config.config_toml)
-    print("env vars:", {k: v for k, v in os.environ.items() if k.startswith("WHIS_")})
+    print(colorize(f"ENV: {config.ENV}", ANSIColors.GRAY))
+    print(colorize(f"version: {config.get_version()}", ANSIColors.GRAY))
+    print(colorize(f"REPO_ROOT: {config.REPO_ROOT}", ANSIColors.GRAY))
+    print(colorize(f"PACKAGE_ROOT: {config.PACKAGE_ROOT}", ANSIColors.GRAY))
+    print(colorize(f"CONFIG_FILE: {config.CONFIG_FILE}", ANSIColors.GRAY))
+    print(colorize(f"LOG_FILE: {config.LOG_FILE}", ANSIColors.GRAY))
+    print(colorize(f"llm_provider: {config.llm_provider}", ANSIColors.GRAY))
+    print(colorize(f"llm_model: {config.llm_model}", ANSIColors.GRAY))
+    print(colorize(f"config_file_content: {config.config_toml}", ANSIColors.GRAY))
+    env_vars_str = " ".join(f"{k}={v}" for k, v in get_whis_env_vars().items())
+    print(colorize(f"ENV: {env_vars_str}", ANSIColors.GRAY))
