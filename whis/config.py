@@ -49,8 +49,20 @@ else:
 
 config_toml = tomllib.loads(CONFIG_FILE.read_text())
 
-llm_provider = os.environ.get("WHIS_PROVIDER", config_toml.get("llm_provider"))  # ollama, openai...
-llm_model = os.environ.get("WHIS_MODEL", config_toml.get("llm_model"))  # gpt-3.5-turbo, gpt-4, qwen2:7b...
+
+def get_cfg_var(key: str, default=None):
+    """
+    First try config.toml then env var named as WHIS_<UPPER_SNAKE_KEY>.
+    """
+    val = config_toml.get(key)
+    if val is not None:
+        return val
+    return os.environ.get(f"WHIS_{key.upper()}", default)
+
+
+llm_provider = get_cfg_var("llm_provider")  # ollama, openai...
+llm_model = get_cfg_var("llm_model")  # gpt-3.5-turbo, gpt-4, qwen2:7b...
+llm_temp = get_cfg_var("llm_temp")  # 0.2
 
 LOG_FORMAT = "%(asctime)s - [%(levelname)s] - %(name)s: %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
