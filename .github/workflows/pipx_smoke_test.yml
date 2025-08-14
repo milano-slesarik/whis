@@ -33,7 +33,7 @@ jobs:
 
       - name: Smoke test
         env:
-          WHIS_ENV: test
+          WHIS_ENV: prod
         run: |
           whis --version
           whis smoke
