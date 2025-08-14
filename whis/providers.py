@@ -187,5 +187,5 @@ class DummyProvider(LLMProvider):
         return "a dummy response"
 
 
-if config.is_dev:
+if config.is_dev or config.is_test:
     registry.register(DummyProvider)
