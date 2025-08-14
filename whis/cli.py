@@ -24,17 +24,13 @@ class Session:
         self.provider = registry.create_by_env()
         logger.info(self.provider)
 
-    def robot_label(self):
-        return f"{self.provider.label} ({self.provider.model})"
-
     def run(self):
         logger.info("run")
-        print(f"WHIS: {self.robot_label()}")
+        print(f"Whisperer: {self.provider}")
 
         message = input("> ")
 
         while True:
-            # try/except with repeat?
             suggestion = self.provider.say(message)
             print(f"? {colorize(suggestion, ANSIColors.BOLD_CYAN)}")
 
