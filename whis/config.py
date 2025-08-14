@@ -29,9 +29,14 @@ is_test = ENV == Env.TEST
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_ROOT = REPO_ROOT / "whis"
 
-if ENV == "dev":
+if is_dev:
     CONFIG_FILE = REPO_ROOT / "config.dev.toml"
     LOG_FILE = REPO_ROOT / "whis.dev.log"
+    config_toml = tomllib.loads(CONFIG_FILE.read_text())
+elif is_test:
+    CONFIG_FILE = REPO_ROOT / "config.test.toml"
+    LOG_FILE = Path("/tmp/whis.test.log")
+    config_toml = tomllib.loads(CONFIG_FILE.read_text())
 else:
     XDG_CONFIG_HOME = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")).expanduser()
     XDG_STATE_HOME = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "state")).expanduser()
@@ -48,8 +53,7 @@ else:
         template_text = (PACKAGE_ROOT / "config.template.toml").read_text()
         CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
         CONFIG_FILE.write_text(template_text)
-
-config_toml = tomllib.loads(CONFIG_FILE.read_text())
+    config_toml = tomllib.loads(CONFIG_FILE.read_text())
 
 
 def get_cfg_var(key: str, default=None):
