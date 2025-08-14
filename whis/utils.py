@@ -38,6 +38,7 @@ class ANSIColors:
     BOLD_CYAN = "\033[1;36m"
     BOLD_ORANGE = "\033[1;33m"
     GRAY = "\033[90m"
+    DIM = "\033[2m"  # less visible than GRAY
     RESET = "\033[0m"
 
 

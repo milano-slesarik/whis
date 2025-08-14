@@ -32,12 +32,11 @@ class Session:
 
         while True:
             suggestion = self.provider.say(message)
-            print(f"? {colorize(suggestion, ANSIColors.BOLD_CYAN)}")
+            print(f"{colorize('? ' + suggestion, ANSIColors.BOLD_CYAN)}", end=" ")
 
             action = self._get_user_action()
 
             if action == UserAction.EXECUTE:
-                print(suggestion)
                 logger.info("Pasting to bash: %s", suggestion)
                 # pyperclip.copy(suggestion)
                 paste_to_bash(suggestion)
@@ -52,7 +51,7 @@ class Session:
                 message = action
 
     def _get_user_action(self):
-        print("[enter] use, [r]etry, [q]uit, or refine:")
+        print(colorize("[enter], [r]etry, feedback", f"{ANSIColors.DIM}{ANSIColors.GRAY}"))
         raw_input = input("> ").strip()
         logger.debug("User input: %s", raw_input)
         return self._parse_user_action(raw_input)
