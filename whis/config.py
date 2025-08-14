@@ -58,12 +58,12 @@ else:
 
 def get_cfg_var(key: str, default=None):
     """
-    First try config.toml then env var named as WHIS_<UPPER_SNAKE_KEY>.
+    First try env var named as WHIS_<UPPER_SNAKE_KEY> then config.toml.
     """
-    val = config_toml.get(key)
+    val = os.environ.get(f"WHIS_{key.upper()}")
     if val is not None:
         return val
-    return os.environ.get(f"WHIS_{key.upper()}", default)
+    return config_toml.get(key, default)
 
 
 llm_provider = get_cfg_var("llm_provider")  # ollama, openai...
