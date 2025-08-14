@@ -1,7 +1,7 @@
 name: pipx-smoke
 
 on:
-  push:
+#  push:
   pull_request:
 
 jobs:
