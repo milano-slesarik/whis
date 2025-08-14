@@ -33,7 +33,8 @@ jobs:
 
       - name: Smoke test
         env:
-          WHIS_ENV: prod
+          LLM_PROVIDER: dummy
+          LLM_MODEL: dummy
         run: |
           whis --version
           whis smoke
