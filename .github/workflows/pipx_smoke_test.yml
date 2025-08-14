@@ -35,7 +35,7 @@ jobs:
         env:
           LLM_PROVIDER: dummy
           LLM_MODEL: dummy
-          WHIS_ENV: test
+          WHIS_ENV: prod
         run: |
           whis --version
           whis smoke
