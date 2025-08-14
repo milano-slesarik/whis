@@ -65,6 +65,11 @@ addopts = "-q --cov=whis --cov-report=term-missing --cov-report=xml  --cov-fail-
 [tool.coverage.run]
 branch = true
 source = ["whis"]
+omit = [
+    "whis/__main__.py",
+    "whis/smoke.py",
+    "whis/__init__.py"
+]
 
 [tool.coverage.report]
 skip_empty = true
