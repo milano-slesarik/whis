@@ -115,7 +115,7 @@ class LLMProvider(ABC):
         return command.strip()
 
     def __str__(self):
-        return f"{self.name} ({self.model})"
+        return f"{self.label} ({self.model})"
 
 
 @registry.register
