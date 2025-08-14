@@ -20,9 +20,11 @@ class Env(str, Enum):
     TEST = "test"
 
 
-ENV = os.environ.get("WHIS_ENV", Env.PROD)
+ENV = os.environ.get("WHIS_ENV", Env.PROD).lower()
 
 is_dev = ENV == Env.DEV
+is_prod = ENV == Env.PROD
+is_test = ENV == Env.TEST
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_ROOT = REPO_ROOT / "whis"
