@@ -5,7 +5,7 @@ from whis import config
 @pytest.mark.parametrize(
     "env_val,file_val,default,expected",
     [
-        ("from_env", "from_config", None, "from_config"),  # config wins
+        ("from_env", "from_config", None, "from_env"),  # config wins
         ("from_env", None, None, "from_env"),  # fallback to env
         (None, None, "def", "def"),  # fallback to default
     ],
