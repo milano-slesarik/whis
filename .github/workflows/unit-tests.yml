@@ -19,4 +19,6 @@ jobs:
           pip install -e . pytest
 
       - name: Test
+        env:
+          WHIS_ENV: test
         run: pytest -q
