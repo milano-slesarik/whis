@@ -45,6 +45,7 @@ whis = ["config.template.toml"]
 dev = [
   "dotenv",
   "pytest",
+  "pytest-cov",
   "black",
   "ruff",
   "pre-commit>=4.3.0,<5"
@@ -57,3 +58,14 @@ target-version = ["py312"]
 
 [tool.ruff]
 line-length = 120
+
+[tool.pytest.ini_options]
+addopts = "-q --cov=whis --cov-report=term-missing --cov-report=xml  --cov-fail-under=80"
+
+[tool.coverage.run]
+branch = true
+source = ["whis"]
+
+[tool.coverage.report]
+skip_empty = true
+show_missing = true
