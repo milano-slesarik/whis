@@ -57,7 +57,7 @@ registry = ProviderRegistry()
 class LLMProvider(ABC):
     name = None
     label = None
-    default_temp = None
+    temp = None
 
     def __init__(self, model):
         self.history = []
