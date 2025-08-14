@@ -86,6 +86,7 @@ class LLMProvider(ABC):
         logger.debug("Submitting request to LLM")
         self._log_recent_history()
         response = self._submit()
+        self._add_message("assistant", response)
         logger.debug("Response: %s", response)
         return response
 
