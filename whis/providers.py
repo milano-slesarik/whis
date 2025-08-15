@@ -32,17 +32,23 @@ class ProviderRegistry:
     def __init__(self):
         self._providers = {}
 
+    class UnavailableProviderError(Exception):
+        pass
+
     def register(self, cls):
         logger.debug("Registering provider: %s", cls)
         self._providers[cls.name] = cls
         return cls
 
-    def _get_class(self, provider_name):
-        return self._providers[provider_name]
+    def _get_provider_class(self, provider_name):
+        try:
+            return self._providers[provider_name]
+        except KeyError:
+            raise self.UnavailableProviderError(f"Provider {provider_name} is not available.")
 
     def create(self, provider_name, model):
         # todo manage errors
-        return self._get_class(provider_name)(model)
+        return self._get_provider_class(provider_name)(model)
 
     def create_by_env(self):
         return self.create(config.llm_provider, config.llm_model)
