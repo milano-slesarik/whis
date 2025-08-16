@@ -24,6 +24,9 @@ class Session:
         self.provider = registry.create_by_env()
         logger.info(self.provider)
 
+    def oneshot(self, message: str):
+        return paste_to_bash(self.provider.say(message))
+
     def run(self):
         logger.info("run")
         print(f"Whisperer: {self.provider}")
@@ -72,6 +75,9 @@ class Session:
         return _return
 
 
-def run_cli():
+def run_cli(oneshot=None):
     session = Session()
-    session.run()
+    if not oneshot:
+        session.run()
+    else:
+        session.oneshot(oneshot)

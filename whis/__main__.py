@@ -22,6 +22,13 @@ def main():
     )
 
     parser.add_argument("--version", action="store_true", help="Show version.")
+    parser.add_argument(  # $ whis -o "list mp3 files"
+        "-o",
+        "--oneshot",
+        nargs="+",
+        metavar="WORD",
+        help="Run one-shot mode (no interactive session).",
+    )
 
     subparsers = parser.add_subparsers(dest="command")
 
@@ -33,6 +40,11 @@ def main():
 
     if args.version:
         print(config.get_version())
+        return
+
+    if args.oneshot:
+        prompt = " ".join(args.oneshot)
+        run_cli(oneshot=prompt)
         return
 
     cmd = args.command or "run"
