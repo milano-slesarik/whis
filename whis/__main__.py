@@ -22,6 +22,8 @@ def main():
     )
 
     parser.add_argument("--version", action="store_true", help="Show version.")
+    parser.add_argument("--show-config", action="store_true", help="Show configuration details.")
+
     parser.add_argument(  # $ whis -o "list mp3 files"
         "-o",
         "--oneshot",
@@ -40,6 +42,10 @@ def main():
 
     if args.version:
         print(config.get_version())
+        return
+
+    if args.show_config:
+        utils.print_config()
         return
 
     if args.oneshot:
