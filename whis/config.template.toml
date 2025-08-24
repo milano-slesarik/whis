@@ -1,2 +1,6 @@
-llm_provider = "dummy"
-llm_model = "dummy"
+# this is a configuration file for whis (https://github.com/milano-slesarik/whis)
+# please note that environment variables have precedence over this file!
+
+# llm_provider = "ollama"  # ollama, openai...
+# llm_model =  "qwen2:7b"
+# llm_temp = 0.2
