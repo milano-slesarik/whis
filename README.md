@@ -1,7 +1,7 @@
-# A tiny Linux command whisperer (WHIS)
+# A tiny Linux command whisperer (Alpha version)
 
 
-A tiny Linux command whisperer/generator based on LLM, written in Python.
+WHIS is a tiny Linux command whisperer/generator based on LLM, written in Python.
 
 The main goals are:
 - minimal interruption of the workflow
@@ -15,10 +15,28 @@ The main goals are:
 
 # ![Showcase](_showcase.gif)
 
-# Todo (business logic)
+## Install
+
+1. Install pipx
+   - Follow the official guide: https://github.com/pipxproject/pipx
+2. Install WHIS with pipx
+   - `pipx install whis-cli`
+3. Configure your provider and model by either
+   - a) Config file: `~/.config/whis/config.toml` (or `XDG_CONFIG_HOME/whis/config.toml` if you use a different location)
+     - create/edit the file with:
+       ```toml
+       llm_provider = "ollama"   # e.g. ollama, openai
+       llm_model = "qwen2:7b"    # e.g. qwen2:7b, gpt-4o-mini
+       ```
+   - b) Environment variables (have priority over config file)
+     - `WHIS_LLM_PROVIDER`
+     - `WHIS_LLM_MODEL`
+4. Run `whis` interactive session by running `whis` in terminal
+
+---
+## Todo (business logic)
 
 - one-shot mode: `whis "list mp3 files"` without the interactive session
-- get configuration variables from a config file
 - `explain` command that sends request for a brief explanation of the command
   - should use a new conversation without a previous context
 - `continue` - loads old session and continues refining
@@ -28,7 +46,10 @@ The main goals are:
   - OpenAI-compatible API (LM Studio, LocalAI...)
 - dangerous commands red warning (e.g. `rm` stuff)
 - `whis` inner history - arrow up should get the latest input even after session restart
-- `whis config` - change settings - provider, model, whether to paste or just copy (maybe execute later)
+- #### interactive configuration
+  - `whis config`
+    - **provider, model**
+    - **action** - copy+paste, copy, maybe execute?
 - other modes (current "quit then paste" feels unreliable)
   - copy to clipboard
   - execute directly (dangerous)
@@ -36,11 +57,11 @@ The main goals are:
 - command syntax check before suggestion
 - use one specific color for all responses and another for user inputs
 
-# Todo (technical)
-
+## Todo (technical)
+- Python versions support (3.10+)
 - tests
 - consider [click](https://github.com/pallets/click/) for CLI
-- checks - precommit
+- checks
   - flake8
   - black
   - isort
