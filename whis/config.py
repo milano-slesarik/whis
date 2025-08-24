@@ -127,8 +127,6 @@ def load_system_prompt():
 def get_version() -> str:
     """Returns version. For development, we parse it from the pyproject.toml."""
     try:
-        import tomllib  # Python 3.11+
-
         repo_root = Path(__file__).resolve().parents[1]
         pyproject = repo_root / "pyproject.toml"
         if pyproject.is_file():
