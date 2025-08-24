@@ -5,11 +5,11 @@ on:
   pull_request:
 
 jobs:
-  pipx-smoke:
+  install-and-run-test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -33,8 +33,8 @@ jobs:
 
       - name: Smoke test
         env:
-          LLM_PROVIDER: dummy
-          LLM_MODEL: dummy
+          WHIS_LLM_PROVIDER: dummy
+          WHIS_LLM_MODEL: dummy
           WHIS_ENV: prod
         run: |
           whis --version
