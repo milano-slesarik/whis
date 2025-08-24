@@ -29,7 +29,7 @@ class Session:
 
     def run(self):
         logger.info("run")
-        print(f"Whisperer: {self.provider}")
+        print(colorize(f"Whisperer: {self.provider}", ANSIColors.DIM))
 
         message = input("> ")
 
