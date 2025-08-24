@@ -1,0 +1,29 @@
+name: Multi-Environment Install Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  multi-ubuntu-install:
+    name: Install test Ubuntu ${{ matrix.ubuntu-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ubuntu-version: ['22.04', '24.04']  # py3.10 and py3.12
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build image
+        run: |
+          docker build \
+            --build-arg UBUNTU_VERSION=${{ matrix.ubuntu-version }} \
+            -t whis-install-test:ubuntu${{ matrix.ubuntu-version }} \
+            -f tests/Dockerfile.install-from-source \
+            .
+
+      - name: Run
+        run: |
+          docker run --rm whis-install-test:ubuntu${{ matrix.ubuntu-version }}
