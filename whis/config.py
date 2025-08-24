@@ -1,6 +1,10 @@
 import logging
 import os
-import tomllib
+
+try:
+    import tomllib
+except ImportError:  # py <= 3.10
+    import tomli as tomllib
 from datetime import datetime
 from enum import Enum
 from importlib import metadata
