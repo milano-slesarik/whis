@@ -76,6 +76,7 @@ class Session:
 
 
 def run_cli(oneshot=None):
+    config.check_is_ready()
     session = Session()
     if not oneshot:
         session.run()
