@@ -143,3 +143,29 @@ def get_version() -> str:
         pass
 
     return "COULD_NOT_DETECT_VERSION"
+
+
+class NotReadyError(Exception):
+    """Raised when required config vars are not set"""
+
+    missing_vars = []
+
+    def __init__(self, message, missing_vars):
+        super().__init__(message)
+        self.missing_vars = missing_vars
+
+
+REQUIRED_CONFIG_KEYS = ["llm_provider", "llm_model"]
+
+
+def check_is_ready():
+    missing_vars = []
+    for var in REQUIRED_CONFIG_KEYS:
+        if not get_cfg_var(var):
+            missing_vars.append(var)
+        print("cvar", get_cfg_var(var))
+    if missing_vars:
+        raise NotReadyError(f"Required config vars not set: {missing_vars}", missing_vars)
+
+
+SYSTEM_PROMPT = load_system_prompt()

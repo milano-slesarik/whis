@@ -24,3 +24,24 @@ def test_get_cfg_var(monkeypatch, env_val, file_val, default, expected):
         monkeypatch.setattr(config, "config_toml", {key: file_val}, raising=False)
 
     assert config.get_cfg_var(key, default=default) == expected
+
+
+def test_check_is_ready(monkeypatch):
+    monkeypatch.delenv("WHIS_LLM_PROVIDER", raising=False)
+    monkeypatch.delenv("WHIS_LLM_MODEL", raising=False)
+    monkeypatch.setattr(config, "config_toml", {}, raising=False)
+
+    with pytest.raises(config.NotReadyError) as e:
+        config.check_is_ready()
+    assert e.value.missing_vars == ["llm_provider", "llm_model"]
+
+    monkeypatch.setenv("WHIS_LLM_PROVIDER", "dummy")
+    monkeypatch.setenv("WHIS_LLM_MODEL", "dummy")
+
+    config.check_is_ready()
+
+    monkeypatch.delenv("WHIS_LLM_PROVIDER", raising=False)
+    monkeypatch.delenv("WHIS_LLM_MODEL", raising=False)
+    monkeypatch.setattr(config, "config_toml", {"llm_provider": "dummy", "llm_model": "dummy"}, raising=False)
+
+    config.check_is_ready()
