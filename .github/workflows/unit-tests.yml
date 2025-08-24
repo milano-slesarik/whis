@@ -21,4 +21,11 @@ jobs:
       - name: Test
         env:
           WHIS_ENV: test
-        run: pytest -q
+        run: pytest -q --cov=whis --cov-report=xml --cov-report=term-missing
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: true
+          verbose: true
