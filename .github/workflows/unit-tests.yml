@@ -1,7 +1,8 @@
 name: unit-tests
 on:
-#  push:
-  pull_request:
+  push:
+    branches: [ main ]  # only on push to main
+  pull_request:  # all PRs
 
 jobs:
   unit-tests:
