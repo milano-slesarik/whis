@@ -21,6 +21,8 @@ jobs:
       - name: Test
         env:
           WHIS_ENV: test
+          WHIS_LLM_PROVIDER: dummy
+          WHIS_LLM_MODEL: dummy
         run: pytest -q --cov=whis --cov-report=xml --cov-report=term-missing
 
       - name: Upload to Codecov
