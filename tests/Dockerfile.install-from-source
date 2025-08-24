@@ -1,0 +1,33 @@
+ARG UBUNTU_VERSION=24.04
+FROM ubuntu:${UBUNTU_VERSION}
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y --no-install-recommends \
+      ca-certificates \
+      python3 \
+      python3-pip \
+      python3-venv \
+      pipx \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN useradd -ms /bin/bash shakira
+USER shakira
+WORKDIR /home/shakira
+
+# todo we could use some fast ollama installation instead of dummy (still will be slower)
+ENV HOME=/home/shakira \
+    PATH=/home/shakira/.local/bin:/usr/local/bin:/usr/bin:/bin \
+    WHIS_LLM_PROVIDER=dummy \
+    WHIS_LLM_MODEL=dummy
+
+RUN pipx ensurepath
+
+COPY --chown=shakira:shakira . /home/shakira/whis/
+RUN cd /home/shakira/whis && pipx install .
+
+RUN set -eux; \
+    whis smoke; \
+    whis --show-config; \
+    whis --version
+
+CMD ["whis", "smoke"]
