@@ -42,7 +42,7 @@ Homepage = "https://github.com/milano-slesarik/whis"
 packages = { find = { include = ["whis*"] } }
 
 [tool.setuptools.package-data]
-whis = ["config.template.toml"]
+whis = ["config.template.toml", "system_prompt.txt"]
 
 [project.optional-dependencies]
 dev = [
