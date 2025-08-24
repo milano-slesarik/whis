@@ -10,6 +10,9 @@ The main goals are:
 - privacy (with local LLM)
 - minimalistic interface
 
+## Alpha version
+Please note that this is an Alpha version and is not ready for production use.<br/>
+So far it's only tested on **Ubuntu 24.04** and **Python 3.12**.
 
 ## Usage
 
