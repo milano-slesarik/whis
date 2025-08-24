@@ -25,13 +25,14 @@ The main goals are:
 - API support
   - Gemini
   - Anthropic
+  - OpenAI-compatible API (LM Studio, LocalAI...)
 - dangerous commands red warning (e.g. `rm` stuff)
 - `whis` inner history - arrow up should get the latest input even after session restart
 - `whis config` - change settings - provider, model, whether to paste or just copy (maybe execute later)
 - other modes (current "quit then paste" feels unreliable)
   - copy to clipboard
-  - execute directly
-- more info in system prompt (OS, pwd...)
+  - execute directly (dangerous)
+- more dynamic context in system prompt (OS, pwd, git branch, etc.) - some might need user permission
 - command syntax check before suggestion
 - use one specific color for all responses and another for user inputs
 
