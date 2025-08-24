@@ -51,7 +51,7 @@ def get_whis_env_vars():
 
 
 def print_config():
-    print(colorize(f"Python version: {sys.version}", ANSIColors.DIM))
+    print(colorize(f"Python version: {sys.version}", ANSIColors.GRAY))
     print(colorize(f"ENV: {config.ENV}", ANSIColors.GRAY))
     print(colorize(f"version: {config.get_version()}", ANSIColors.GRAY))
     print(colorize(f"REPO_ROOT: {config.REPO_ROOT}", ANSIColors.GRAY))
