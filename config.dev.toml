@@ -1,2 +1,0 @@
-llm_provider = "ollama"
-llm_model = "qwen2:7b"
