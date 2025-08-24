@@ -163,7 +163,6 @@ def check_is_ready():
     for var in REQUIRED_CONFIG_KEYS:
         if not get_cfg_var(var):
             missing_vars.append(var)
-        print("cvar", get_cfg_var(var))
     if missing_vars:
         raise NotReadyError(f"Required config vars not set: {missing_vars}", missing_vars)
 
