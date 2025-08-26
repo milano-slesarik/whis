@@ -23,7 +23,7 @@ So far it's only tested on **Ubuntu 24.04** and **Python 3.12**.
 1. Install pipx
    - Follow the official guide: https://github.com/pipxproject/pipx
 2. Install WHIS with pipx
-   - `pipx install whis-cli`
+   - `pipx install whis`
 3. Configure your provider and model by either
    - a) Config file: `~/.config/whis/config.toml` (or `XDG_CONFIG_HOME/whis/config.toml` if you use a different location)
      - create/edit the file with:

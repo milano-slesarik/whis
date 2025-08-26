@@ -51,7 +51,7 @@ jobs:
         run: |
           python -m venv prodenv
           source prodenv/bin/activate
-          pip install whis-cli
+          pip install whis
           whis --version
           whis --help
           WHIS_LLM_PROVIDER=dummy WHIS_LLM_MODEL=dummy whis smoke
