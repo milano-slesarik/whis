@@ -1,0 +1,57 @@
+name: Release to PyPI
+
+on:
+  workflow_dispatch:  # manual trigger only
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'  # only main branch
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build package
+        run: python -m build
+
+      - name: Check package
+        run: twine check dist/*
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+
+  verify-release:
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Waiting for PyPI to sync...
+        run: sleep 60
+
+      - name: Trying to install from PyPI
+        run: |
+          python -m venv prodenv
+          source prodenv/bin/activate
+          pip install whis-cli
+          whis --version
+          whis --help
+          WHIS_LLM_PROVIDER=dummy WHIS_LLM_MODEL=dummy whis smoke
