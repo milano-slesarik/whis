@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "whis-cli"
-version = "0.1.0a2"  # next alpha
+version = "0.1.0a3"  # next alpha
 description = "A tiny Linux command whisperer that suggests shell commands based on natural language."
 readme = "README.md"
 license = { file = "LICENSE" , content-type = "text/markdown" }
