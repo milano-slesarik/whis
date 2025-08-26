@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "whis-cli"
-version = "0.1.0a3"  # next alpha
+name = "whis"
+version = "0.1.0a4"  # next alpha
 description = "A tiny Linux command whisperer that suggests shell commands based on natural language."
 readme = "README.md"
 license = { file = "LICENSE" , content-type = "text/markdown" }

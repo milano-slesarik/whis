@@ -140,7 +140,7 @@ def get_version() -> str:
         pass
 
     try:
-        return metadata.version("whis-cli")
+        return metadata.version("whis")
     except metadata.PackageNotFoundError:
         pass
 
