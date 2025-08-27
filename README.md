@@ -61,7 +61,6 @@ So far it's only tested on **Ubuntu 24.04** and **Python 3.12**.
 - use one specific color for all responses and another for user inputs
 
 ## Todo (technical)
-- Python versions support (3.10+)
 - tests
 - consider [click](https://github.com/pallets/click/) for CLI
 - checks
