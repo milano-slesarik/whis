@@ -170,9 +170,7 @@ class OllamaProvider(LLMProvider):
 
     def _submit(self) -> str:
         response = self.provider.chat(
-            model=self.model,
-            messages=self.history,
-            options={"temperature": self.temp},
+            model=self.model, messages=self.history, options={"temperature": self.temp}, keep_alive="1h"
         )
         return response.message.content.strip()
 
