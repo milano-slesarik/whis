@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 from . import config
+from .utils import muted_print
 
 try:
     from openai import OpenAI
@@ -156,6 +157,7 @@ class OllamaProvider(LLMProvider):
     name = "ollama"
     label = "Ollama"
     temp = 0.2
+    keep_alive = "1h"
 
     def __init__(self, model: str):
         if not OLLAMA_AVAILABLE:
@@ -164,15 +166,46 @@ class OllamaProvider(LLMProvider):
 
         self.model = model
         self.provider = ollama.Client()
+        if not self._is_model_loaded():
+            self._preload_model()
 
     def is_available(self) -> bool:
         return OLLAMA_AVAILABLE
 
     def _submit(self) -> str:
         response = self.provider.chat(
-            model=self.model, messages=self.history, options={"temperature": self.temp}, keep_alive="1h"
+            model=self.model, messages=self.history, options={"temperature": self.temp}, keep_alive=self.keep_alive
         )
         return response.message.content.strip()
+
+    def _is_model_loaded(self):
+        """
+        Check if the model is loaded in RAM.
+        Having a model loaded in RAM makes the first request much faster.
+        """
+        return self.model in [x.model for x in self.provider.ps().models]
+
+    def _preload_model(self):
+        """
+        Preload the model in RAM.
+
+        TODO
+        The problem is that even if it looks like model is loaded in memory (and listed),
+        the first user request takes too long. Much longer than in a middle of the conversation.
+
+
+        """
+        muted_print(f"Preloading model {self.model}...")
+        self.provider.chat(
+            model=self.model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": " ",
+                }
+            ],
+            keep_alive=self.keep_alive,
+        )
 
 
 class DummyProvider(LLMProvider):
