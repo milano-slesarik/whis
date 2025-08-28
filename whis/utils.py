@@ -46,6 +46,10 @@ def colorize(text, color):
     return f"{color}{text}{ANSIColors.RESET}"
 
 
+def muted_print(text):
+    print(colorize(text, ANSIColors.GRAY))
+
+
 def get_whis_env_vars():
     return {k: v for k, v in os.environ.items() if k.startswith("WHIS_")}
 
