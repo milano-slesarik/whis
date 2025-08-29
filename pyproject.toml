@@ -65,7 +65,7 @@ target-version = ["py312"]
 line-length = 120
 
 [tool.pytest.ini_options]
-addopts = "-q --cov=whis --cov-report=term-missing --cov-report=xml  --cov-fail-under=67"
+addopts = "-q --cov=whis --cov-report=term-missing --cov-report=xml  --cov-fail-under=71"
 
 [tool.coverage.run]
 branch = true
