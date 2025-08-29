@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from whis.utils import print_muted, ANSIColors
+from whis.utils import print_muted, ANSIColors, colorize, get_whis_env_vars
 
 
 class TestMutedPrint:
@@ -14,3 +14,11 @@ class TestMutedPrint:
         assert "Lelolo lelo le!" in call_args
         assert ANSIColors.GRAY in call_args
         assert ANSIColors.RESET in call_args
+
+    def test_colorize(self):
+        assert colorize("foo", ANSIColors.GRAY) == (f"{ANSIColors.GRAY}foo{ANSIColors.RESET}")
+
+    @patch.dict("os.environ", {"WHIS_TEST": "test", "OTHER": "value"}, clear=True)
+    def test_get_whis_env_vars(self):
+        result = get_whis_env_vars()
+        assert result == {"WHIS_TEST": "test"}
