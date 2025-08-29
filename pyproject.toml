@@ -7,11 +7,11 @@ name = "whis"
 version = "0.1.0a5"  # next alpha
 description = "A tiny Linux command whisperer that suggests shell commands based on natural language."
 readme = "README.md"
-license = { file = "LICENSE" , content-type = "text/markdown" }
+license = { file = "LICENSE", content-type = "text/markdown" }
 requires-python = ">=3.10"
 
 authors = [
-  { name = "Milan Slesarik", email = "milslesarik@gmail.com" }
+    { name = "Milan Slesarik", email = "milslesarik@gmail.com" }
 ]
 
 classifiers = [
@@ -27,10 +27,10 @@ classifiers = [
 ]
 
 dependencies = [
-  "openai",
-  "ollama",
-  "pyperclip",  # clipboard management
-  "tomli >= 1.2.0; python_version < '3.11'"  # Python 3.11+ has tomllib built-in
+    "openai",
+    "ollama",
+    "pyperclip", # clipboard management
+    "tomli >= 1.2.0; python_version < '3.11'"  # Python 3.11+ has tomllib built-in
 
 ]
 
@@ -49,20 +49,29 @@ whis = ["config.template.toml", "system_prompt.txt"]
 
 [project.optional-dependencies]
 dev = [
-  "dotenv",
-  "pytest",
-  "pytest-cov",
-  "black",
-  "ruff",
-  "pre-commit>=4.3.0,<5"
+    "dotenv",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "pre-commit>=4.3.0,<5"
 ]
-
-[tool.black]
-line-length = 120
-target-version = ["py312"]
 
 [tool.ruff]
 line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort (import sorting)
+    "B", # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["whis"]
 
 [tool.pytest.ini_options]
 addopts = "-q --cov=whis --cov-report=term-missing --cov-report=xml  --cov-fail-under=71"
