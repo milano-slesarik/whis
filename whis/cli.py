@@ -3,7 +3,7 @@ from enum import Enum
 
 from . import config
 from .providers import registry
-from .utils import paste_to_bash, ANSIColors, colorize
+from .utils import ANSIColors, colorize, paste_to_bash
 
 config.setup_logging()
 

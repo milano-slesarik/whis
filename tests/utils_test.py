@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from whis.utils import print_muted, ANSIColors, colorize, get_whis_env_vars
+from whis.utils import ANSIColors, colorize, get_whis_env_vars, print_muted
 
 
 class TestMutedPrint:
