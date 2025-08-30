@@ -61,12 +61,5 @@ So far it's only tested on **Ubuntu 24.04** and **Python 3.12**.
 - use one specific color for all responses and another for user inputs
 
 ## Todo (technical)
-- tests
 - consider [click](https://github.com/pallets/click/) for CLI
-- checks
-  - flake8
-  - black
-  - isort
-  - mypy
 - better command pasting (now it uses xdotool and xclip with process forking) using bash functions
-- there seems to be a conflict between `black` and `ruff`
