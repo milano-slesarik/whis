@@ -1,5 +1,6 @@
 import logging
 import os
+import tempfile
 
 try:
     import tomllib
@@ -39,7 +40,7 @@ if is_dev:
     LOG_FILE = REPO_ROOT / "whis.dev.log"
     config_toml = {}
 elif is_test:
-    LOG_FILE = Path("/tmp/whis.test.log")
+    LOG_FILE = Path(tempfile.gettempdir()) / "whis.test.log"
     config_toml = {}
 else:
     XDG_CONFIG_HOME = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")).expanduser()
@@ -130,14 +131,12 @@ def load_system_prompt():
 
 def get_version() -> str:
     """Returns version. For development, we parse it from the pyproject.toml."""
-    try:
-        repo_root = Path(__file__).resolve().parents[1]
-        pyproject = repo_root / "pyproject.toml"
-        if pyproject.is_file():
-            data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
-            return data.get("project", {}).get("version", "COULD_NOT_DETECT_VERSION")
-    except Exception:
-        pass
+
+    repo_root = Path(__file__).resolve().parents[1]
+    pyproject = repo_root / "pyproject.toml"
+    if pyproject.is_file():
+        data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+        return data.get("project", {}).get("version", "COULD_NOT_DETECT_VERSION")
 
     try:
         return metadata.version("whis")
