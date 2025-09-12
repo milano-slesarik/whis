@@ -32,13 +32,14 @@ class Session:
 
     def run(self):
         logger.info("run")
-        print(colorize(f"Whisperer: {self.provider}", ANSIColors.DIM))
+        print(colorize(f"Whisperer: {self.provider}", ANSIColors.DIM), end="\n")
 
         message = self._input("")
 
         while True:
             suggestion = self.provider.say(message)
-            print(f"{colorize('? ' + suggestion, ANSIColors.BOLD_CYAN)}", end=" ")
+            print("\nSuggestion: ")
+            print(f"    {colorize(suggestion, ANSIColors.BOLD_CYAN)}", end="\n\n")
 
             action = self._get_user_action()
 
