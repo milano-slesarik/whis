@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class UserAction(Enum):
     EXECUTE = "_execute"
     QUIT = "_quit"
-    RETRY = "_retry"
+    REGENERATE = "_regenerate"
     FEEDBACK = "feedback"
 
 
@@ -48,7 +48,7 @@ class Session:
             elif action == UserAction.QUIT:
                 print("Cancelled.")
                 return
-            elif action == UserAction.RETRY:
+            elif action == UserAction.REGENERATE:
                 message = "Try again, user wants something different."
             elif isinstance(action, str):  # custom feedback like "ok, but display human-readable file sizes"
                 message = action
@@ -66,8 +66,8 @@ class Session:
             _return = UserAction.EXECUTE
         elif response_lower in ("q", "quit"):
             _return = UserAction.QUIT
-        elif response_lower in ("r", "retry"):
-            _return = UserAction.RETRY
+        elif response_lower in ("r", "regenerate"):
+            _return = UserAction.REGENERATE
         else:
             _return = user_response  # custom feedback
 

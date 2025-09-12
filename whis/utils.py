@@ -45,6 +45,7 @@ class ANSIColors:
 
 
 def colorize(text, color):
+    # todo respect NO_COLOR env var
     return f"{color}{text}{ANSIColors.RESET}"
 
 
