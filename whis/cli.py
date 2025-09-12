@@ -1,6 +1,9 @@
 import logging.config
 from enum import Enum
 
+from prompt_toolkit import HTML, prompt
+from prompt_toolkit.styles import Style
+
 from . import config
 from .providers import registry
 from .utils import ANSIColors, colorize, paste_to_bash
@@ -31,7 +34,7 @@ class Session:
         logger.info("run")
         print(colorize(f"Whisperer: {self.provider}", ANSIColors.DIM))
 
-        message = input("> ")
+        message = self._input("")
 
         while True:
             suggestion = self.provider.say(message)
@@ -54,10 +57,17 @@ class Session:
                 message = action
 
     def _get_user_action(self):
-        print(colorize("[enter], [r]etry, feedback", f"{ANSIColors.DIM}{ANSIColors.GRAY}"))
-        raw_input = input("> ").strip()
+        raw_input = self._input(placeholder="[Enter] Accept | Type to Refine | [Q]uit")
         logger.debug("User input: %s", raw_input)
         return self._parse_user_action(raw_input)
+
+    def _input(self, placeholder: str = ""):
+        style = Style.from_dict({"placeholder": "fg:#808080"})
+        return prompt(
+            ">>> ",
+            placeholder=HTML(f"<placeholder>{placeholder}</placeholder>"),
+            style=style,
+        )
 
     def _parse_user_action(self, user_response):
         response_lower = user_response.lower()
