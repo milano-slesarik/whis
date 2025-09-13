@@ -30,8 +30,8 @@ dependencies = [
     "openai",
     "ollama",
     "pyperclip", # clipboard management
-    "tomli >= 1.2.0; python_version < '3.11'"  # Python 3.11+ has tomllib built-in
-
+    "tomli >= 1.2.0; python_version < '3.11'",  # Python 3.11+ has tomllib built-in
+    "prompt_toolkit>=3.0.51"
 ]
 
 [project.scripts]
