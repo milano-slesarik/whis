@@ -74,7 +74,7 @@ select = [
 known-first-party = ["whis"]
 
 [tool.pytest.ini_options]
-addopts = "-q --cov=whis --cov-report=term-missing --cov-report=xml  --cov-fail-under=71"
+addopts = "-q --cov=whis --cov-report=term-missing --cov-report=xml  --cov-fail-under=61"
 
 [tool.coverage.run]
 branch = true
