@@ -8,7 +8,7 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: actions/setup-python@v5
         with:
@@ -24,7 +24,7 @@ jobs:
           WHIS_ENV: test
           WHIS_LLM_PROVIDER: dummy
           WHIS_LLM_MODEL: dummy
-        run: pytest -q --cov=whis --cov-report=xml --cov-report=term-missing --cov-fail-under=67
+        run: pytest
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v5

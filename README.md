@@ -1,17 +1,28 @@
-# A tiny Linux command whisperer (Alpha version)
+# A tiny Linux command whisperer
 
 
-WHIS is a tiny Linux command whisperer/generator based on LLM, written in Python.
+**WHIS** is a tiny Linux command whisperer/generator based on **LLM**, written in **Python**.
 
-The main goals are:
+## ! An Important Note on Usage and Safety !
+
+Think of **whis** as a "whisperer" for the commands you already know but can't quite remember.  It is a tool for
+experienced users who can recognize dangerous commands.
+```
+Never execute a suggested command without fully understanding its function and potential consequences or at least
+without knowing it's not dangerous.
+Blindly trusting AI-generated commands is dangerous and can lead to data loss. That's why **whis** doesn't execute
+commands but only prepares them for you to the terminal.
+```
+
+## The main goals are:
 - minimal interruption of the workflow
-- fast
+- speed
 - free and unlimited suggestions (with local LLM)
 - privacy (with local LLM)
 - minimalistic interface
 
 ## Alpha version
-Please note that this is an Alpha version and is not ready for production use.<br/>
+Please note that this is an Alpha version and might not work as expected.
 So far it's only tested on **Ubuntu 24.04** and **Python 3.12**.
 
 ## Usage
@@ -31,43 +42,12 @@ So far it's only tested on **Ubuntu 24.04** and **Python 3.12**.
        llm_provider = "ollama"   # e.g. ollama, openai
        llm_model = "qwen2:7b"    # e.g. qwen2:7b, gpt-4o-mini
        ```
-   - b) Environment variables (have priority over config file)
+   - b) Environment variables (have priority over the config file)
      - `WHIS_LLM_PROVIDER`
      - `WHIS_LLM_MODEL`
 4. Run `whis` interactive session by running `whis` in terminal
 
----
-## Todo (business logic)
 
-- one-shot mode: `whis "list mp3 files"` without the interactive session
-- `explain` command that sends request for a brief explanation of the command
-  - should use a new conversation without a previous context
-- `continue` - loads old session and continues refining
-- API support
-  - Gemini
-  - Anthropic
-  - OpenAI-compatible API (LM Studio, LocalAI...)
-- dangerous commands red warning (e.g. `rm` stuff)
-- `whis` inner history - arrow up should get the latest input even after session restart
-- #### interactive configuration
-  - `whis config`
-    - **provider, model**
-    - **action** - copy+paste, copy, maybe execute?
-- other modes (current "quit then paste" feels unreliable)
-  - copy to clipboard
-  - execute directly (dangerous)
-- more dynamic context in system prompt (OS, pwd, git branch, etc.) - some might need user permission
-- command syntax check before suggestion
-- use one specific color for all responses and another for user inputs
+## Todo
 
-## Todo (technical)
-- Python versions support (3.10+)
-- tests
-- consider [click](https://github.com/pallets/click/) for CLI
-- checks
-  - flake8
-  - black
-  - isort
-  - mypy
-- better command pasting (now it uses xdotool and xclip with process forking) using bash functions
-- there seems to be a conflict between `black` and `ruff`
+Todo was moved to [Issues](https://github.com/milano-slesarik/whis/issues)

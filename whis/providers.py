@@ -43,8 +43,8 @@ class ProviderRegistry:
     def _get_provider_class(self, provider_name):
         try:
             return self._providers[provider_name]
-        except KeyError:
-            raise self.UnavailableProviderError(f"Provider {provider_name} is not available.")
+        except KeyError as e:
+            raise self.UnavailableProviderError(f"Provider {provider_name} is not available.") from e
 
     def create(self, provider_name, model):
         # todo manage errors
@@ -170,9 +170,7 @@ class OllamaProvider(LLMProvider):
 
     def _submit(self) -> str:
         response = self.provider.chat(
-            model=self.model,
-            messages=self.history,
-            options={"temperature": self.temp},
+            model=self.model, messages=self.history, options={"temperature": self.temp}, keep_alive="1h"
         )
         return response.message.content.strip()
 

@@ -1,10 +1,12 @@
 import logging
-import subprocess
-import time
 import os
+import subprocess  # nosec
 import sys
-from . import config
+import time
+
 import pyperclip
+
+from . import config
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +29,7 @@ def paste_to_bash(text):
     pyperclip.copy(text)
     # simulate ctrl+shift+v (linux terminal pasting)
     subprocess.run(
-        ["xdotool", "key", "--clearmodifiers", "ctrl+shift+v"],
+        ["xdotool", "key", "--clearmodifiers", "ctrl+shift+v"],  # nosec
         check=True,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -43,7 +45,12 @@ class ANSIColors:
 
 
 def colorize(text, color):
+    # todo respect NO_COLOR env var
     return f"{color}{text}{ANSIColors.RESET}"
+
+
+def print_muted(text):
+    print(colorize(text, ANSIColors.GRAY))
 
 
 def get_whis_env_vars():
